@@ -1,0 +1,77 @@
+{
+  "speed": {
+    "prefill-mixed-8192": {
+      "baseline": 1466.7954970536753,
+      "production_median": 1880.256923059381,
+      "gain_percent": 28.18807576354154,
+      "n": 3,
+      "metric": "server_prefill_tok_s"
+    },
+    "prefill-mixed-32768": {
+      "baseline": 1429.5220158957654,
+      "production_median": 1814.7867591600948,
+      "gain_percent": 26.950598800181137,
+      "n": 3,
+      "metric": "server_prefill_tok_s"
+    },
+    "decode-code": {
+      "baseline": 55.91322075240243,
+      "production_median": 56.57471807330905,
+      "gain_percent": 1.1830785492323859,
+      "n": 3,
+      "metric": "decode_tok_s"
+    },
+    "decode-prose": {
+      "baseline": 39.58003151499919,
+      "production_median": 42.48020194919954,
+      "gain_percent": 7.327357566911741,
+      "n": 3,
+      "metric": "decode_tok_s"
+    }
+  },
+  "quality": {
+    "prefill-32768": {
+      "passed": 3,
+      "failed": 0
+    },
+    "prefill-8192": {
+      "passed": 3,
+      "failed": 0
+    },
+    "prefill-mixed-32768": {
+      "passed": 3,
+      "failed": 0
+    },
+    "prefill-mixed-8192": {
+      "passed": 3,
+      "failed": 0
+    },
+    "quality-code-trace": {
+      "passed": 0,
+      "failed": 3
+    },
+    "quality-intervals": {
+      "passed": 3,
+      "failed": 0
+    },
+    "quality-json": {
+      "passed": 3,
+      "failed": 0
+    },
+    "quality-math": {
+      "passed": 3,
+      "failed": 0
+    },
+    "quality-orders": {
+      "passed": 3,
+      "failed": 0
+    },
+    "quality-tool": {
+      "passed": 3,
+      "failed": 0
+    }
+  },
+  "all_requests_valid": true,
+  "public_repository": "https://github.com/humanrouter/deepseek-v4-flash-gx10-speed-recipe",
+  "model_and_precision_unchanged": true
+}

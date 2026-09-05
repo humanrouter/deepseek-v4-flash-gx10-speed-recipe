@@ -17,6 +17,10 @@ The target was +10% in both prefill and decoding. **The decode target was not me
 
 Candidate figures are medians of three cold requests after one warmup per cell. The comparison uses the faster median from the initial baseline and a five-repeat restored baseline, separately for each cell. Requests used unique cache salts; cached or overlapping requests were rejected. Headline prefill is input tokens divided by server request-prefill time. Decode is `(output tokens - 1) / (last output time - first output time)`, with a 768-token output budget. Headline long-context prompts were frozen varied Python standard-library source text; repeated-text control cells are included but excluded from the headline table; code and prose prompts were different workloads. This does not measure concurrent-user throughput or the full one-million-token context.
 
+## Production recheck
+
+After deploying the exact profile to the permanent serving folders on both machines, three-repeat checks measured **+28.19% / +26.95%** mixed-source prefill (8K / 32K), **+1.18%** code decoding and **+7.33%** prose decoding against the same conservative baseline. This confirms the reading gain; decoding still misses +10%. Basic and semantic checks again scored 27/30, with only the already-known code-trace failure. Both containers were healthy and real external chat requests passed. See `production-validation.json` for the medians and check counts. This recheck is distinct from the candidate-selection table above.
+
 ## Differences from latest MiaAI
 
 Compared with upstream commit [`f5665e8`](https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark/tree/f5665e8bcde8304654c77a7d58069fdd677198f9), checked September 4, 2026:
