@@ -1,0 +1,14 @@
+{
+  "upstream": "https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark.git",
+  "base_commit": "c444d7032957f5a5437261d5366fd06b27a01760",
+  "latest_compared": "f5665e8bcde8304654c77a7d58069fdd677198f9",
+  "patched_files_sha256": {
+    "docker-compose.dspark.yml": "4b672085bb1d29d5408f220ebe2e70e4dcd0a63974092ff0149b7be8ec8e6996",
+    "patches/hotfix-vllm-dspark-block-k.py": "9cfbc5bcf18084b55eb8f2f6238642fcc20f70dd08378c01b7039f65e649f77d",
+    "scripts/fixtures/dspark-block-k/speculative-752a3a504-stock.py": "3f1abd1ca3042fba239e7bf98b08f645f3e950c16ab510fbc99a49c5c507721f",
+    "scripts/test-dspark-block-k.py": "58136536767dddd7b292d7d2e22c39b31b1c58d6a591c16533b9afcb0ba8a5e0",
+    "start-deepseek-v4-flash-dspark.sh": "51846debf8f7938f57544d2b81c62853a0220385cd01577942dc3738dea7b074",
+    ".env.dspark.example": "d25efb66151de8a5822c9fca9c06a5d8fd56992ce4da61ee0ca6e8bbad36c548",
+    "scripts/ci-validate.sh": "177e9454f5a0d34eca0aead3ca3fc25b7e701ed32521b6382d99bdfbc38fb0b7"
+  }
+}
