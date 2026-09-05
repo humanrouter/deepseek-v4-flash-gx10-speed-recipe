@@ -15,7 +15,7 @@ Single-request tests on two 128 GB ASUS GX10 / NVIDIA GB10 machines, September 4
 
 The target was +10% in both prefill and decoding. **The decode target was not met.** This is the best measured combination from five tested configurations, selected mainly for prefill. These are workload-specific results, not a promise for every prompt or installation.
 
-Candidate figures are medians of three cold requests after one warmup per cell. The comparison uses the faster median from the initial baseline and a five-repeat restored baseline, separately for each cell. Requests used unique cache salts; cached or overlapping requests were rejected. Prefill is input tokens divided by time to first output. Decode is `(output tokens - 1) / (last output time - first output time)`, with a 768-token output budget. Long-context prompts were repeated reference text; code and prose prompts were different workloads. This does not measure concurrent-user throughput or the full one-million-token context.
+Candidate figures are medians of three cold requests after one warmup per cell. The comparison uses the faster median from the initial baseline and a five-repeat restored baseline, separately for each cell. Requests used unique cache salts; cached or overlapping requests were rejected. Headline prefill is input tokens divided by server request-prefill time. Decode is `(output tokens - 1) / (last output time - first output time)`, with a 768-token output budget. Headline long-context prompts were frozen varied Python standard-library source text; repeated-text control cells are included but excluded from the headline table; code and prose prompts were different workloads. This does not measure concurrent-user throughput or the full one-million-token context.
 
 ## Differences from latest MiaAI
 
@@ -91,12 +91,15 @@ For a boot service, point its start command at this permanent checkout and inclu
 Run on the head with the server on port 8011, and keep all other clients idle:
 
 ```sh
+mkdir -p bench-original bench-tuned
+cp prompts.json bench-original/prompts.json
+cp prompts.json bench-tuned/prompts.json
 python3 benchmark.py --root ./bench-original --label original --repeats 3
 # After a separately managed switch to this profile:
 python3 benchmark.py --root ./bench-tuned --label tuned --repeats 3
 ```
 
-The helper uses only the Python standard library. It stores full request outputs and timing/counter data under each result directory. It creates four speed cells plus arithmetic, JSON and tool-call checks; uses a unique cache salt for each request; and refuses incomplete, cached or overlapping samples. A `COMPLETE` result means measurement completed; inspect each `quality_pass` separately. This helper does not manage service switches, clocks, recovery or stability monitoring. Do not run it against a busy endpoint.
+The helper uses only the Python standard library. It stores full request outputs and timing/counter data under each result directory. It loads the bundled frozen prompts, including mixed-source prefill, repeated-text controls, code/prose generation and the quality checks; uses a unique cache salt for each request; and refuses incomplete, cached or overlapping samples. For the headline comparison, use the `prefill-mixed-*` cells and compute `usage.prompt_tokens / server_prefill_s`, then take the median excluding `warmup=true`. The stored `prefill_tok_s` field instead uses time to first output and is a separate client-time metric. A `COMPLETE` result means measurement completed; inspect each `quality_pass` separately. This helper does not manage service switches, clocks, recovery or stability monitoring. Do not run it against a busy endpoint.
 
 ## Quality and stability limits
 
@@ -110,4 +113,4 @@ To undo the profile, stop the pair first, restore the saved environment on each 
 
 Serving recipe and block-k work: [MiaAI Lab and contributors](https://github.com/MiaAI-Lab/DeepSeek-v4-Flash-DSpark-2x-DGX-Spark). vLLM and its contributors provide the validator fixture embedded in the patch. This repository packages tested tuning settings and reproduction steps; it does not claim authorship of the upstream work.
 
-New helper/documentation: MIT. Included MiaAI portions retain their MIT notice in `licenses/MiaAI-MIT.txt`. The embedded vLLM fixture retains its Apache-2.0 header; see `licenses/vLLM-Apache-2.0.txt`. Model weights and the container retain their own licenses and access terms.
+The frozen mixed-source prompts contain Python standard-library excerpts with their original notices; see `licenses/Python-PSF.txt`. New helper/documentation: MIT. Included MiaAI portions retain their MIT notice in `licenses/MiaAI-MIT.txt`. The embedded vLLM fixture retains its Apache-2.0 header; see `licenses/vLLM-Apache-2.0.txt`. Model weights and the container retain their own licenses and access terms.

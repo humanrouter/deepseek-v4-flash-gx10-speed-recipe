@@ -27,6 +27,10 @@ def idle(m):
 def frozen(root):
     path = root/'prompts.json'
     if path.exists(): return json.loads(path.read_text())
+    bundled=Path(__file__).with_name('prompts.json')
+    if bundled.exists():
+        path.write_bytes(bundled.read_bytes())
+        return json.loads(path.read_text())
     cells = [
         {'id':'decode-code','prompt':'Write a complete Python implementation of a TTL cache with a monotonic clock, LRU eviction, an optional maximum size, a decorator interface, type annotations, docstrings, and pytest tests for expiry and concurrent access. Return code only. Be thorough.', 'max_tokens':768},
         {'id':'decode-prose','prompt':'Explain how a database transaction travels from an application through validation, locks, write-ahead logging, commit, replication, and crash recovery. Give concrete examples and cover failure cases in detail. Use clear English prose.', 'max_tokens':768},
